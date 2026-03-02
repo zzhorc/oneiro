@@ -17,3 +17,6 @@ node_modules
 
 # Release packages
 oneiro-*.zip
+
+# Release notes (local only)
+release/
