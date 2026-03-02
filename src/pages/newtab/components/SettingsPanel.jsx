@@ -1,9 +1,10 @@
 import { IoMoonOutline as MoonIcon, IoSunnyOutline as SunIcon } from "react-icons/io5";
 import { MdTimelapse as SyncIcon } from "react-icons/md";
 import { BiFontFamily as FontIcon } from "react-icons/bi";
-import { IoVolumeHighOutline as VolumeOnIcon, IoVolumeMuteOutline as VolumeOffIcon } from "react-icons/io5";
+// import { IoVolumeHighOutline as VolumeOnIcon, IoVolumeMuteOutline as VolumeOffIcon } from "react-icons/io5";
+import { IoGridOutline as GridIcon } from "react-icons/io5";
 
-export default function SettingsPanel({ theme, onThemeToggle, onFontToggle, isMuted, onMuteToggle }) {
+export default function SettingsPanel({ theme, onThemeToggle, onFontToggle, visibleRows, onRowsCycle }) {
   return (
     <div className="fixed bottom-6 left-6 z-50 flex">
       <div className="tooltip" data-tip={`${theme === "sync" ? "系统主题" : theme === "dark" ? "深色主题" : "浅色主题"}`}>
@@ -30,6 +31,7 @@ export default function SettingsPanel({ theme, onThemeToggle, onFontToggle, isMu
         </div>
       </div>
 
+      {/* 静音按钮已注释
       <div className="ml-4" />
       <div className="tooltip" data-tip="静音">
         <div id="mute-toggle" className="custom-settings-button-style transition-all duration-300 hover:scale-110">
@@ -40,6 +42,20 @@ export default function SettingsPanel({ theme, onThemeToggle, onFontToggle, isMu
           </label>
         </div>
       </div>
+      */}
+
+      <div className="ml-4" />
+      <div className="tooltip" data-tip={`书签显示 ${visibleRows} 行`}>
+        <button
+          id="rows-toggle"
+          className="custom-settings-button-style transition-all duration-300 hover:scale-110 relative"
+          onClick={onRowsCycle}
+          type="button"
+        >
+          <GridIcon className="fill-current w-8 h-8" />
+          <span className="absolute -top-1 -right-1 text-[0.6rem] font-bold opacity-80">{visibleRows}</span>
+        </button>
+      </div>
     </div>
   );
-} 
+}

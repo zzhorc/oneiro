@@ -1,6 +1,6 @@
 {
-  "name": "jizhi-mod",
-  "description": "https://github.com/xxnuo/jizhi-mod",
+  "name": "oneiro",
+  "description": "Oneiro - A Chrome extension for new tab with Chinese poems and bookmarks",
   "version": "1.3.3",
   "scripts": {
     "pre": "wxt prepare",

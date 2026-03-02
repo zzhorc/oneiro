@@ -19,4 +19,14 @@ export const FONTNAME_LIST = [
   "KingHwa_OldSong",
 ];
 
+export const FONT_DISPLAY_NAMES = {
+  nzgrKangxi: "康熙字典体",
+  QIJIFALLBACK: "齐伋体",
+  Slidefu: "佛系体",
+  YuFanXinYu: "余繁新语",
+  MuzaiPixel: "像素体",
+  "LXGW WenKai Light": "霞鹜文楷",
+  KingHwa_OldSong: "京華老宋",
+};
+
 export const POEM_MAXLINELENGTH = 23;

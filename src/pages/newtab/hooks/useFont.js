@@ -6,6 +6,8 @@ export function useFont() {
 
   useEffect(() => {
     localStorage.setItem("fontIndex", fontIndex.toString());
+    // 同时设置到 :root，让 portal 内容（文件夹弹窗）也继承字体
+    document.documentElement.style.setProperty("--custom-font-name", FONTNAME_LIST[fontIndex]);
   }, [fontIndex]);
 
   const toggleFont = useCallback(() => {

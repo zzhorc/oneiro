@@ -7,9 +7,10 @@ export default defineConfig({
     plugins: [tailwindcss()],
   }),
   manifest: {
+    permissions: ["bookmarks", "favicon"],
     author: "xxnuo",
-    name: "浮生梦",
-    description: "支持自定义新标签页的 Chrome 扩展，在新标签页上展示中国经典诗词。",
+    name: "Oneiro",
+    description: "Oneiro - 源自希腊语“梦”（oneiros），在新标签页上展示中国经典诗词和书签。",
     action: {
       default_icon: {
         16: "icon/16.png",
@@ -19,7 +20,7 @@ export default defineConfig({
         64: "icon/64.png",
         128: "icon/128.png",
       },
-      default_title: "浮生梦",
+      default_title: "Oneiro",
     },
   },
 });

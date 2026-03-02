@@ -1,115 +1,117 @@
-# 浮生梦
-
 <p align="center">
-  <a
-    rel="noreferrer noopener" target="_blank" target="_blank"
-    href="https://github.com/xxnuo/jizhi-mod"
-    ><img
-      alt="Github"
-      src="https://img.shields.io/badge/Github-141e24.svg?style=for-the-badge&logo=github&logoColor=white"
-  /></a>
-  <a
-    rel="noreferrer noopener" target="_blank" target="_blank"
-    href="https://chromewebstore.google.com/detail/aihpjpjndpdkbmdjghjglbmippnjlkcp"
-    ><img
-      alt="Chrome Web Store"
-      src="https://img.shields.io/badge/Chrome-141e24.svg?&style=for-the-badge&logo=google-chrome&logoColor=white"
-  /></a>
-  <a rel="noreferrer noopener" target="_blank" href="https://addons.mozilla.org/en-US/firefox/addon/jizhi-mod/"
-    ><img
-      alt="Firefox Add-ons"
-      src="https://img.shields.io/badge/Firefox-141e24.svg?&style=for-the-badge&logo=firefox-browser&logoColor=white"
-  /></a>
-  <a rel="noreferrer noopener" target="_blank" href="https://microsoftedge.microsoft.com/addons/detail/nfkllnegbckcaplofnbhaiohkcdnlbfd"
-    ><img
-      alt="Edge"
-      src="https://img.shields.io/badge/Edge-141e24.svg?&style=for-the-badge&logo=google-chrome&logoColor=white"
-  /></a>
+  <img src="public/icon/256.png" alt="Oneiro" width="128" height="128" />
 </p>
 
-## 介绍
+<h1 align="center">Oneiro</h1>
 
-支持自定义新标签页的跨浏览器扩展，浮生梦将在新标签页上展示中国经典诗词。
+<p align="center">
+  取「梦」字致敬原项目「浮生梦」<br/>
+  <em>源自希腊语 oneiros（ὄνειρος），意为"梦"</em>
+</p>
 
-### 目前已完成的功能
+<p align="center">
+  一个优雅的 Chrome 新标签页扩展<br/>
+  在新标签页上展示中国经典诗词，以 Apple 风格展示浏览器书签
+</p>
 
-- 点击诗句自动朗读
-- 具有多种风格迥异的字体
-- 支持自动切换明暗主题
+---
 
-有空会持续更新新功能，目前只是基础 1.0 版本。
+## ✨ 功能特性
 
-## 预览
+| 功能 | 说明 |
+|------|------|
+| 📖 经典诗词 | 新标签页展示中国经典诗词，完全离线数据 |
+| 🔖 书签栏 | Apple 风格圆角图标，展示浏览器书签栏内容 |
+| 📂 文件夹嵌套 | 毛玻璃弹出面板，支持多层递归展开 |
+| 🔄 实时同步 | 浏览器书签增删改即时反映 |
+| 🎨 7 种字体 | 多种中国风字体可切换，右下角显示当前字体名 |
+| 🌗 主题切换 | 浅色 / 深色 / 跟随系统三种模式 |
+| ⚙️ 自定义行数 | 书签展示行数 1-4 行可调 |
+| ⚡ 极速加载 | 完全离线运行，针对低功耗设备优化 |
 
-![LightTheme](preview/light.png)
+## 📸 预览
 
-<!-- https://i.imgur.com/qc5QtNM.png -->
+![浅色主题](preview/chrome_light.png)
 
-![DarkTheme](preview/dark.png)
+![深色主题](preview/chrome_dark.png)
 
-<!-- https://i.imgur.com/Z8A47Rd.png -->
+## 🛠️ 技术栈
 
-![FirefoxPreview](preview/Firefox.png)
+`WXT` · `React` · `TailwindCSS v4` · `DaisyUI`
 
-<!-- https://i.imgur.com/fQgS52Q.png -->
+## 📦 安装
 
-![SafariPreview](preview/Safari.png)
+### 方式一：下载 Release 包
 
-<!-- https://i.imgur.com/ucGvozQ.png -->
+前往 [Releases](../../releases) 页面下载对应浏览器的 zip 包：
 
-## 特性
+| 包名 | 适用浏览器 |
+|------|-----------|
+| `oneiro-chrome-edge.zip` | Chrome / Edge |
+| `oneiro-firefox.zip` | Firefox |
 
-- 使用完全离线的数据，无需联网
-- 保持设计风格：简洁美观第一，速度性能第一（针对低功耗设备优化）
-- 使用 WXT + React + Tailwindcss + Daisyui 开发
+#### Chrome / Edge
 
-### 下载安装
+1. 下载 `oneiro-chrome-edge.zip` 并解压
+2. 打开 `chrome://extensions/`（Edge 为 `edge://extensions/`）
+3. 开启右上角 **开发者模式**
+4. 点击 **加载已解压的扩展程序**，选择解压后的 `chrome-mv3` 文件夹
 
-#### 商店下载链接：
+#### Firefox
 
-> Chrome、Firefox、Edge 等浏览器商店点击下面链接或标题的图标下载，也可以直接在浏览器拓展商店搜索 “浮生梦” 安装。
+1. 下载 `oneiro-firefox.zip` 并解压
+2. 打开 `about:debugging#/runtime/this-firefox`
+3. 点击 **临时载入附加组件**，选择解压后 `firefox-mv2` 文件夹中的 `manifest.json`
 
-- [Chrome Web Store](https://chrome.google.com/webstore/detail/aihpjpjndpdkbmdjghjglbmippnjlkcp)
+> ⚠️ Firefox 临时扩展在关闭浏览器后会自动卸载，需重新加载。
 
-- [Firefox Addons](https://addons.mozilla.org/en-US/firefox/addon/jizhi-mod/)
+### 方式二：从源码构建
 
-- [Edge 加载项](https://microsoftedge.microsoft.com/addons/detail/nfkllnegbckcaplofnbhaiohkcdnlbfd)
-  （新版本的审核非常非常慢，能用 Chrome 商店版本尽量用 Chrome 商店版本）
+```bash
+# Chrome / Edge
+pnpm install
+pnpm run build
 
-> 插件曾用名：几枝夏，现已更名为 “浮生梦”
+# Firefox
+pnpm run build --browser firefox
+```
 
-> 注：若无法访问 Chrome Web Store
->
-> 可在国内 Chrome Web Store 克隆站下载安装：
-> [浮生梦 | Chrome扩展 - Crx搜搜](https://www.crxsoso.com/webstore/detail/aihpjpjndpdkbmdjghjglbmippnjlkcp)
+构建输出目录分别为 `.output/chrome-mv3/` 和 `.output/firefox-mv2/`。
 
-## 待办
+## 📋 路线图
 
-- [x] 朗诵功能
+- [x] Apple 风格书签栏
+- [x] 多种中文字体切换
+- [x] 明暗主题自动适配
 - [ ] 独立网页版
-- [ ] 自定义背景功能
-- [ ] 添加搜索框功能
-- [ ] 添加自定义字体功能
+- [ ] 自定义背景
+- [ ] 搜索框
+- [ ] 自定义字体导入
 
-## 捐赠
+## 📝 更新日志
 
-可以在这里给我买杯咖啡😊 [爱发电](https://afdian.com/a/xxnuo)
+### v2.0.0
 
-## 版本历史
+**新增**
+- 🔖 Apple 风格书签栏，圆角图标展示浏览器书签
+- 📂 文件夹嵌套展开，毛玻璃弹出面板，支持多层递归
+- 🔄 实时同步浏览器书签增删改
+- ⚙️ 可自定义书签展示行数（1-4 行）
+- 💬 悬浮 tooltip 显示书签完整名称与网址
+- 🏷️ 右下角显示当前字体名称
+- 🎨 全新扩展图标：佛系体「梦」字 + 红色圆形背景
 
-```
-v1.3.1 尝试解决闪屏问题
-v1.3.0 优化语音生成速度
-v1.2.2 优化主题设置
-v1.2.0 原名“几枝夏”不太好打😂，启用新名字：“浮生梦”
-v1.1.0 添加静音按钮、大幅优化插件包体积😄
-v1.0.9 修复多次播放问题
-v1.0.8 现在会保存颜色偏好了
-```
+**优化**
+- 🔤 文件夹内文字统一使用霞鹜文楷
+- 🔠 字体回退链优先使用霞鹜文楷，减少缺字问题
 
-## 鸣谢
+## � 鸣谢
 
-字体来自 [中文网字计划](https://chinese-font.netlify.app/)，有许多优秀的中文字体。
+本项目基于 [xxnuo/jizhi-mod](https://github.com/xxnuo/jizhi-mod)（浮生梦 v1.3.3）二次开发。
 
-灵感来自 [unicar9/jizhi](https://github.com/unicar9/jizhi)（作者已不再维护）
+- 字体来自 [中文网字计划](https://chinese-font.netlify.app/)
+- 原始灵感来自 [unicar9/jizhi](https://github.com/unicar9/jizhi)（几枝）
 
+## 📄 License
+
+MIT

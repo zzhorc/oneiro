@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 
-export default function PoemDisplay({ poem, isAnimating, onTitleClick }) {
+export default function PoemDisplay({ poem, isAnimating }) {
   useEffect(() => {
     document.title = navigator.languages.includes("zh") ? "新标签页" : "New Tab";
   }, []);
@@ -8,15 +8,12 @@ export default function PoemDisplay({ poem, isAnimating, onTitleClick }) {
   return (
     <div className={`justify-center text-center ${isAnimating ? "animate__animated animate__fadeIn animate__faster" : ""}`}>
       <div className="justify-center item-center flex flex-col">
-        <button
+        <div
           id="poem-title-container"
-          className="text-5xl mb-10 whitespace-pre-wrap cursor-pointer transition-all duration-300 hover:scale-105"
-          onClick={onTitleClick}
-          onKeyDown={(e) => e.key === 'Enter' && onTitleClick()}
-          type="button"
+          className="text-5xl mb-10 whitespace-pre-wrap transition-all duration-300"
         >
           {poem.title}
-        </button>
+        </div>
       </div>
       <div id="poem-author-container" className="flex justify-center">
         <p className="text-3xl mr-4 transition-all duration-300 hover:text-opacity-80">
