@@ -160,6 +160,7 @@
   width: 34px;
   height: 34px;
   object-fit: contain;
+  opacity: 0.9;
 }
 
 .bookmark-fallback-icon {

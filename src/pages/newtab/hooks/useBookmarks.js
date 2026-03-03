@@ -26,7 +26,8 @@ const BOOKMARKS_BAR_ID = "1";
 function getFaviconUrl(pageUrl) {
     try {
         new URL(pageUrl); // validate URL
-        return `chrome://favicon2/?size=64&scaleFactor=2x&showFallbackMonogram&pageUrl=${encodeURIComponent(pageUrl)}`;
+        const faviconBase = browser.runtime.getURL("_favicon/");
+        return `${faviconBase}?pageUrl=${encodeURIComponent(pageUrl)}&size=128`;
     } catch {
         return "";
     }
