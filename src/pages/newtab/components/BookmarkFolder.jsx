@@ -8,7 +8,7 @@ import BookmarkItem from "./BookmarkItem";
  * 使用 createPortal 将弹出面板渲染到 body 层级
  * 仅通过 ✕ 关闭按钮关闭，避免嵌套层级被一起关闭
  */
-export default function BookmarkFolder({ folder, depth = 0 }) {
+export default function BookmarkFolder({ folder, depth = 0, iconType }) {
     const [isOpen, setIsOpen] = useState(false);
 
     const toggleOpen = useCallback((e) => {
@@ -56,9 +56,9 @@ export default function BookmarkFolder({ folder, depth = 0 }) {
                 <div className="bookmark-folder-grid">
                     {folder.children.map((child) =>
                         child.children ? (
-                            <BookmarkFolder key={child.id} folder={child} depth={depth + 1} />
+                            <BookmarkFolder key={child.id} folder={child} depth={depth + 1} iconType={iconType} />
                         ) : (
-                            <BookmarkItem key={child.id} bookmark={child} />
+                            <BookmarkItem key={child.id} bookmark={child} iconType={iconType} />
                         )
                     )}
                     {folder.children.length === 0 && (

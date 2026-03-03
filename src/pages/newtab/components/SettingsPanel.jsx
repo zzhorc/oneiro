@@ -1,61 +1,110 @@
-import { IoMoonOutline as MoonIcon, IoSunnyOutline as SunIcon } from "react-icons/io5";
+import { useState, useCallback, useRef, useEffect } from "react";
+import {
+  IoSettingsOutline as SettingsIcon,
+  IoMoonOutline as MoonIcon,
+  IoSunnyOutline as SunIcon,
+  IoImageOutline as ImageIcon,
+  IoTextOutline as TextIcon,
+  IoContrastOutline as BwIcon,
+} from "react-icons/io5";
 import { MdTimelapse as SyncIcon } from "react-icons/md";
 import { BiFontFamily as FontIcon } from "react-icons/bi";
-// import { IoVolumeHighOutline as VolumeOnIcon, IoVolumeMuteOutline as VolumeOffIcon } from "react-icons/io5";
-import { IoGridOutline as GridIcon } from "react-icons/io5";
 
-export default function SettingsPanel({ theme, onThemeToggle, onFontToggle, visibleRows, onRowsCycle }) {
+/**
+ * 统一设置面板
+ * 左下角齿轮按钮，点击弹出毛玻璃菜单
+ */
+export default function SettingsPanel({
+  theme,
+  onThemeToggle,
+  onFontToggle,
+  visibleRows,
+  onRowsCycle,
+  iconType,
+  onIconTypeToggle,
+}) {
+  const [isOpen, setIsOpen] = useState(false);
+  const panelRef = useRef(null);
+
+  const togglePanel = useCallback(() => {
+    setIsOpen((prev) => !prev);
+  }, []);
+
+  // 点击面板外部关闭
+  useEffect(() => {
+    if (!isOpen) return;
+    const handleClickOutside = (e) => {
+      if (panelRef.current && !panelRef.current.contains(e.target)) {
+        setIsOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [isOpen]);
+
+  const themeLabel = theme === "sync" ? "跟随系统" : theme === "dark" ? "深色" : "浅色";
+  const iconTypeLabel = iconType === "favicon" ? "彩色图标" : iconType === "bw-favicon" ? "黑白图标" : "首字图标";
+
   return (
-    <div className="fixed bottom-6 left-6 z-50 flex">
-      <div className="tooltip" data-tip={`${theme === "sync" ? "系统主题" : theme === "dark" ? "深色主题" : "浅色主题"}`}>
-        <button
-          id="theme-toggle"
-          className="custom-settings-button-style transition-all duration-300 hover:scale-110"
-          onClick={onThemeToggle}
-          type="button"
-        >
-          {theme === "light" && <SunIcon className="swap-on fill-current w-8 h-8" />}
-          {theme === "dark" && <MoonIcon className="swap-on fill-current w-8 h-8" />}
-          {theme === "sync" && <SyncIcon className="swap-on fill-current w-8 h-8" />}
-        </button>
-      </div>
+    <div ref={panelRef} className="settings-container">
+      {/* 触发按钮 */}
+      <button
+        className="settings-trigger"
+        onClick={togglePanel}
+        type="button"
+        title="设置"
+      >
+        <SettingsIcon className="w-6 h-6" />
+      </button>
 
-      <div className="ml-4" />
-      <div className="tooltip" data-tip="切换字体">
-        <div id="font-toggle" className="custom-settings-button-style transition-all duration-300 hover:scale-110">
-          <label className="swap">
-            <input type="checkbox" onClick={onFontToggle} />
-            <FontIcon className="swap-on fill-current w-8 h-8" />
-            <FontIcon className="swap-off fill-current w-8 h-8" />
-          </label>
+      {/* 弹出菜单 */}
+      {isOpen && (
+        <div className="settings-popover animate__animated animate__fadeIn animate__faster">
+          {/* 主题 */}
+          <button className="settings-row" onClick={onThemeToggle} type="button">
+            <span className="settings-row-icon">
+              {theme === "light" && <SunIcon className="w-5 h-5" />}
+              {theme === "dark" && <MoonIcon className="w-5 h-5" />}
+              {theme === "sync" && <SyncIcon className="w-5 h-5" />}
+            </span>
+            <span className="settings-row-label">主题</span>
+            <span className="settings-row-value">{themeLabel}</span>
+          </button>
+
+          {/* 字体 */}
+          <button className="settings-row" onClick={onFontToggle} type="button">
+            <span className="settings-row-icon">
+              <FontIcon className="w-5 h-5" />
+            </span>
+            <span className="settings-row-label">字体</span>
+            <span className="settings-row-value">切换</span>
+          </button>
+
+          {/* 书签行数 */}
+          <button className="settings-row" onClick={onRowsCycle} type="button">
+            <span className="settings-row-icon">
+              <span className="settings-rows-badge">{visibleRows}</span>
+            </span>
+            <span className="settings-row-label">书签行数</span>
+            <span className="settings-row-value">{visibleRows} 行</span>
+          </button>
+
+          {/* 书签图标 */}
+          <button className="settings-row" onClick={onIconTypeToggle} type="button">
+            <span className="settings-row-icon">
+              {iconType === "favicon" ? (
+                <ImageIcon className="w-5 h-5" />
+              ) : iconType === "bw-favicon" ? (
+                <BwIcon className="w-5 h-5" />
+              ) : (
+                <TextIcon className="w-5 h-5" />
+              )}
+            </span>
+            <span className="settings-row-label">书签图标</span>
+            <span className="settings-row-value">{iconTypeLabel}</span>
+          </button>
         </div>
-      </div>
-
-      {/* 静音按钮已注释
-      <div className="ml-4" />
-      <div className="tooltip" data-tip="静音">
-        <div id="mute-toggle" className="custom-settings-button-style transition-all duration-300 hover:scale-110">
-          <label className="swap">
-            <input type="checkbox" checked={isMuted} onChange={onMuteToggle} />
-            <VolumeOffIcon className="swap-on fill-current w-8 h-8" />
-            <VolumeOnIcon className="swap-off fill-current w-8 h-8" />
-          </label>
-        </div>
-      </div>
-      */}
-
-      <div className="ml-4" />
-      <div className="tooltip" data-tip={`书签显示 ${visibleRows} 行`}>
-        <button
-          id="rows-toggle"
-          className="custom-settings-button-style transition-all duration-300 hover:scale-110 relative"
-          onClick={onRowsCycle}
-          type="button"
-        >
-          <GridIcon className="fill-current w-8 h-8" />
-          <span className="absolute -top-1 -right-1 text-[0.6rem] font-bold opacity-80">{visibleRows}</span>
-        </button>
-      </div>
+      )}
     </div>
   );
 }

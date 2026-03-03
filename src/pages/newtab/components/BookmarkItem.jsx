@@ -6,7 +6,7 @@ import { createPortal } from "react-dom";
  * Apple 风格圆角方形 favicon + 名称
  * Tooltip 通过 createPortal 渲染到 body 层，避免被父容器裁切
  */
-export default function BookmarkItem({ bookmark }) {
+export default function BookmarkItem({ bookmark, iconType = "favicon" }) {
     const [imgError, setImgError] = useState(false);
     const [showTooltip, setShowTooltip] = useState(false);
     const [tooltipPos, setTooltipPos] = useState({ top: 0, left: 0 });
@@ -60,11 +60,11 @@ export default function BookmarkItem({ bookmark }) {
             onMouseLeave={handleMouseLeave}
         >
             <div className="bookmark-icon-wrapper">
-                {!imgError && bookmark.favicon ? (
+                {iconType !== "letter" && !imgError && bookmark.favicon ? (
                     <img
                         src={bookmark.favicon}
                         alt=""
-                        className="bookmark-favicon"
+                        className={`bookmark-favicon${iconType === "bw-favicon" ? " bookmark-favicon-bw" : ""}`}
                         onError={() => setImgError(true)}
                         loading="lazy"
                     />

@@ -83,12 +83,113 @@
   }
 }
 
-.custom-settings-button-style {
-  opacity: 10%;
+/* ===== 统一设置面板 ===== */
+
+.settings-container {
+  position: fixed;
+  bottom: 1.5rem;
+  left: 1.5rem;
+  z-index: 100;
 }
 
-.custom-settings-button-style:hover {
-  opacity: 100%;
+.settings-trigger {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border: none;
+  background: none;
+  color: var(--fallback-bc, oklch(var(--bc) / 1));
+  opacity: 0.12;
+  cursor: pointer;
+  border-radius: 50%;
+  transition: all 0.25s ease;
+}
+
+.settings-trigger:hover {
+  opacity: 0.8;
+  background-color: oklch(from var(--fallback-bc, oklch(var(--bc) / 1)) l c h / 0.06);
+  transform: rotate(30deg);
+}
+
+.settings-popover {
+  position: absolute;
+  bottom: calc(100% + 0.75rem);
+  left: 0;
+  min-width: 200px;
+  padding: 0.5rem;
+  border-radius: 1rem;
+  font-family: "LXGW WenKai Light", 楷体, serif;
+  background-color: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(24px) saturate(1.6);
+  -webkit-backdrop-filter: blur(24px) saturate(1.6);
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.12),
+    0 0 0 0.5px rgba(0, 0, 0, 0.05);
+}
+
+[data-theme="halloween"] .settings-popover,
+:root[data-theme="halloween"] .settings-popover {
+  background-color: rgba(30, 30, 30, 0.92);
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.35),
+    0 0 0 0.5px rgba(255, 255, 255, 0.06);
+}
+
+.settings-row {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 0.5rem 0.625rem;
+  border: none;
+  background: none;
+  color: var(--fallback-bc, oklch(var(--bc) / 0.8));
+  cursor: pointer;
+  border-radius: 0.625rem;
+  transition: background-color 0.15s ease;
+  font-size: 0.8125rem;
+  gap: 0.625rem;
+}
+
+.settings-row:hover {
+  background-color: oklch(from var(--fallback-bc, oklch(var(--bc) / 1)) l c h / 0.06);
+}
+
+.settings-row-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+  color: var(--fallback-bc, oklch(var(--bc) / 0.55));
+}
+
+.settings-row-label {
+  flex: 1;
+  text-align: left;
+  font-weight: 500;
+}
+
+.settings-row-value {
+  font-size: 0.75rem;
+  color: var(--fallback-bc, oklch(var(--bc) / 0.4));
+  flex-shrink: 0;
+}
+
+.settings-rows-badge {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--fallback-bc, oklch(var(--bc) / 0.55));
+}
+
+@media (prefers-color-scheme: dark) {
+  .settings-popover {
+    box-shadow:
+      0 8px 32px rgba(0, 0, 0, 0.3),
+      0 0 0 0.5px rgba(255, 255, 255, 0.08);
+  }
 }
 
 /* ===== Bookmark Bar ===== */
@@ -160,7 +261,11 @@
   width: 34px;
   height: 34px;
   object-fit: contain;
-  opacity: 0.9;
+}
+
+.bookmark-favicon-bw {
+  filter: grayscale(1);
+  opacity: 0.7;
 }
 
 .bookmark-fallback-icon {

@@ -18,7 +18,7 @@ export default function App() {
   const { currentFont, toggleFont } = useFont();
   // const { isMuted, toggleMute, playVoice } = useVoice();
   const { bookmarks, loading } = useBookmarks();
-  const { visibleRows, isExpanded, toggleExpand, cycleVisibleRows } = useBookmarkSettings();
+  const { visibleRows, isExpanded, toggleExpand, cycleVisibleRows, iconType, toggleIconType } = useBookmarkSettings();
   const [poem, setPoem] = useState(() => getRandomPoem());
   const [isAnimating, setIsAnimating] = useState(true);
 
@@ -56,10 +56,6 @@ export default function App() {
     return () => clearTimeout(timer);
   }, [poem.title]);
 
-  // const handleTitleClick = () => {
-  //   playVoice(poem.title);
-  // };
-
   return (
     <div id="app" className="custom-font" style={{ "--custom-font-name": currentFont }}>
       <div className="min-h-screen flex flex-col items-center justify-center">
@@ -70,6 +66,7 @@ export default function App() {
           visibleRows={visibleRows}
           isExpanded={isExpanded}
           toggleExpand={toggleExpand}
+          iconType={iconType}
         />
       </div>
 
@@ -79,6 +76,8 @@ export default function App() {
         onFontToggle={toggleFont}
         visibleRows={visibleRows}
         onRowsCycle={cycleVisibleRows}
+        iconType={iconType}
+        onIconTypeToggle={toggleIconType}
       />
 
       {/* 右下角显示当前字体名 */}

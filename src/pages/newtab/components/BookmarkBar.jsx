@@ -8,7 +8,7 @@ import BookmarkFolder from "./BookmarkFolder";
  * 使用 CSS auto-fill Grid 自动适应窗口宽度
  * 展开/收起基于实际渲染行数
  */
-export default function BookmarkBar({ bookmarks, loading, visibleRows, isExpanded, toggleExpand }) {
+export default function BookmarkBar({ bookmarks, loading, visibleRows, isExpanded, toggleExpand, iconType }) {
     const gridRef = useRef(null);
     const [needsExpand, setNeedsExpand] = useState(false);
     const [maxHeight, setMaxHeight] = useState("none");
@@ -61,9 +61,9 @@ export default function BookmarkBar({ bookmarks, loading, visibleRows, isExpande
             >
                 {bookmarks.map((item) =>
                     item.children ? (
-                        <BookmarkFolder key={item.id} folder={item} />
+                        <BookmarkFolder key={item.id} folder={item} iconType={iconType} />
                     ) : (
-                        <BookmarkItem key={item.id} bookmark={item} />
+                        <BookmarkItem key={item.id} bookmark={item} iconType={iconType} />
                     )
                 )}
             </div>
