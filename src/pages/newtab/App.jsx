@@ -6,19 +6,31 @@ import "./App.css";
 import PoemDisplay from "./components/PoemDisplay";
 import SettingsPanel from "./components/SettingsPanel";
 import BookmarkBar from "./components/BookmarkBar";
+import QuickSitesBar from "./components/QuickSitesBar";
 import { useTheme } from "./hooks/useTheme";
 import { useFont } from "./hooks/useFont";
 // import { useVoice } from "./hooks/useVoice";
 import { useGuide } from "./hooks/useGuide";
 import { useBookmarks } from "./hooks/useBookmarks";
 import { useBookmarkSettings } from "./hooks/useBookmarkSettings";
+import { useQuickSites } from "./hooks/useQuickSites";
+import { useResponsiveRows } from "./hooks/useResponsiveRows";
 
 export default function App() {
   const { theme, toggleTheme } = useTheme();
   const { currentFont, toggleFont } = useFont();
-  // const { isMuted, toggleMute, playVoice } = useVoice();
   const { bookmarks, loading } = useBookmarks();
-  const { visibleRows, isExpanded, toggleExpand, cycleVisibleRows, iconType, toggleIconType } = useBookmarkSettings();
+  const {
+    visibleRows, isExpanded, toggleExpand, cycleVisibleRows,
+    iconType, toggleIconType,
+    showBookmarks, toggleShowBookmarks,
+    showQuickSites, toggleShowQuickSites,
+  } = useBookmarkSettings();
+  const { sites, addSite, editSite, removeSite } = useQuickSites();
+  const [isQuickSitesExpanded, setIsQuickSitesExpanded] = useState(false);
+  const { safeBookmarkRows, safeQuickSiteRows } = useResponsiveRows(
+    visibleRows, showBookmarks, showQuickSites, sites.length
+  );
   const [poem, setPoem] = useState(() => getRandomPoem());
   const [isAnimating, setIsAnimating] = useState(true);
 
@@ -56,18 +68,51 @@ export default function App() {
     return () => clearTimeout(timer);
   }, [poem.title]);
 
+  // 是否两个区域都显示（用于决定是否显示区域标题）
+  const bothVisible = showBookmarks && showQuickSites && sites.length > 0;
+
   return (
     <div id="app" className="custom-font" style={{ "--custom-font-name": currentFont }}>
-      <div className="min-h-screen flex flex-col items-center justify-center">
+      <div className="min-h-screen flex flex-col items-center">
+        {/* 当内容多（bothVisible）时，上方留白多，整体内容偏下 4:2
+            当内容少时，上下留白近似相等 3:3 或 4:4，使诗句居中 */}
+        <div className={`w-full ${bothVisible ? "flex-grow-[4]" : "flex-grow-[3]"}`} />
+
         <PoemDisplay poem={poem} isAnimating={isAnimating} />
-        <BookmarkBar
-          bookmarks={bookmarks}
-          loading={loading}
-          visibleRows={visibleRows}
-          isExpanded={isExpanded}
-          toggleExpand={toggleExpand}
-          iconType={iconType}
-        />
+
+        <div className="sections-wrapper">
+          {showBookmarks && (
+            <>
+              {bothVisible && <div className="section-label">书签</div>}
+              <BookmarkBar
+                bookmarks={bookmarks}
+                loading={loading}
+                visibleRows={safeBookmarkRows}
+                isExpanded={isExpanded}
+                toggleExpand={toggleExpand}
+                iconType={iconType}
+              />
+            </>
+          )}
+
+          {showQuickSites && (
+            <>
+              {bothVisible && <div className="section-label">常用网站</div>}
+              <QuickSitesBar
+                sites={sites}
+                addSite={addSite}
+                editSite={editSite}
+                removeSite={removeSite}
+                iconType={iconType}
+                visibleRows={safeQuickSiteRows}
+                isExpanded={isQuickSitesExpanded}
+                toggleExpand={() => setIsQuickSitesExpanded(prev => !prev)}
+              />
+            </>
+          )}
+        </div>
+
+        <div className={`w-full ${bothVisible ? "flex-grow-[2]" : "flex-grow-[3]"}`} />
       </div>
 
       <SettingsPanel
@@ -78,6 +123,10 @@ export default function App() {
         onRowsCycle={cycleVisibleRows}
         iconType={iconType}
         onIconTypeToggle={toggleIconType}
+        showBookmarks={showBookmarks}
+        onToggleBookmarks={toggleShowBookmarks}
+        showQuickSites={showQuickSites}
+        onToggleQuickSites={toggleShowQuickSites}
       />
 
       {/* 右下角显示当前字体名 */}

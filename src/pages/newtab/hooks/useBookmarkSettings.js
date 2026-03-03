@@ -4,8 +4,7 @@ const DEFAULT_VISIBLE_ROWS = 2;
 const DEFAULT_ICON_TYPE = "favicon"; // "favicon" | "bw-favicon" | "letter"
 
 /**
- * 管理书签显示设置的 hook
- * @returns {{ visibleRows: number, isExpanded: boolean, toggleExpand: Function, cycleVisibleRows: Function, iconType: string, toggleIconType: Function }}
+ * 管理书签与显示设置的 hook
  */
 export function useBookmarkSettings() {
     const [visibleRows, setVisibleRows] = useState(() =>
@@ -15,6 +14,12 @@ export function useBookmarkSettings() {
     const [iconType, setIconType] = useState(() =>
         localStorage.getItem("bookmarkIconType") || DEFAULT_ICON_TYPE
     );
+    const [showBookmarks, setShowBookmarks] = useState(() =>
+        localStorage.getItem("showBookmarks") !== "false"
+    );
+    const [showQuickSites, setShowQuickSites] = useState(() =>
+        localStorage.getItem("showQuickSites") !== "false"
+    );
 
     useEffect(() => {
         localStorage.setItem("bookmarkVisibleRows", visibleRows.toString());
@@ -23,6 +28,14 @@ export function useBookmarkSettings() {
     useEffect(() => {
         localStorage.setItem("bookmarkIconType", iconType);
     }, [iconType]);
+
+    useEffect(() => {
+        localStorage.setItem("showBookmarks", String(showBookmarks));
+    }, [showBookmarks]);
+
+    useEffect(() => {
+        localStorage.setItem("showQuickSites", String(showQuickSites));
+    }, [showQuickSites]);
 
     const toggleExpand = useCallback(() => {
         setIsExpanded((prev) => !prev);
@@ -40,5 +53,18 @@ export function useBookmarkSettings() {
         });
     }, []);
 
-    return { visibleRows, isExpanded, toggleExpand, cycleVisibleRows, iconType, toggleIconType };
+    const toggleShowBookmarks = useCallback(() => {
+        setShowBookmarks((prev) => !prev);
+    }, []);
+
+    const toggleShowQuickSites = useCallback(() => {
+        setShowQuickSites((prev) => !prev);
+    }, []);
+
+    return {
+        visibleRows, isExpanded, toggleExpand, cycleVisibleRows,
+        iconType, toggleIconType,
+        showBookmarks, toggleShowBookmarks,
+        showQuickSites, toggleShowQuickSites,
+    };
 }

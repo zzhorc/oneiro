@@ -184,6 +184,36 @@
   color: var(--fallback-bc, oklch(var(--bc) / 0.55));
 }
 
+.settings-group-title {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  color: var(--fallback-bc, oklch(var(--bc) / 0.35));
+  padding: 0.375rem 0.625rem 0.125rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.settings-divider {
+  height: 1px;
+  margin: 0.375rem 0.625rem;
+  background-color: oklch(from var(--fallback-bc, oklch(var(--bc) / 1)) l c h / 0.08);
+}
+
+.settings-row-toggle {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  padding: 0.125rem 0.5rem;
+  border-radius: 0.375rem;
+  color: var(--fallback-bc, oklch(var(--bc) / 0.35));
+  background-color: oklch(from var(--fallback-bc, oklch(var(--bc) / 1)) l c h / 0.06);
+  transition: all 0.15s ease;
+}
+
+.settings-row-toggle.is-on {
+  color: var(--fallback-p, oklch(var(--p) / 0.85));
+  background-color: oklch(from var(--fallback-p, oklch(var(--p) / 1)) l c h / 0.12);
+}
+
 @media (prefers-color-scheme: dark) {
   .settings-popover {
     box-shadow:
@@ -192,12 +222,233 @@
   }
 }
 
-/* ===== Bookmark Bar ===== */
+/* ===== 区域容器和标题 ===== */
+
+.sections-wrapper {
+  width: 100%;
+  max-width: 860px;
+  margin-top: 2.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.section-label {
+  width: 100%;
+  max-width: 860px;
+  padding: 0 1.25rem;
+  margin-top: 2.5rem;
+  margin-bottom: -1rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--fallback-bc, oklch(var(--bc) / 0.25));
+  text-align: left;
+}
+
+.section-label:first-child {
+  margin-top: 0;
+}
+
+/* ===== Quick Sites ===== */
+
+.quicksites-bar-wrapper {
+  width: 100%;
+  max-width: 860px;
+  margin-top: 1.5rem;
+  padding: 0 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.quicksites-bar-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+  gap: 0.5rem 0.25rem;
+  width: 100%;
+  justify-items: center;
+  transition: max-height 0.3s ease;
+}
+
+.quicksite-add-icon {
+  border: 2px dashed oklch(from var(--fallback-bc, oklch(var(--bc) / 1)) l c h / 0.15);
+  background: none !important;
+  box-shadow: none !important;
+  color: var(--fallback-bc, oklch(var(--bc) / 0.3));
+}
+
+.quicksite-add-btn:hover .quicksite-add-icon {
+  border-color: oklch(from var(--fallback-bc, oklch(var(--bc) / 1)) l c h / 0.3);
+  color: var(--fallback-bc, oklch(var(--bc) / 0.5));
+}
+
+/* 右键菜单 */
+.quicksite-context-menu {
+  min-width: 100px;
+  padding: 0.375rem;
+  border-radius: 0.75rem;
+  font-family: "LXGW WenKai Light", 楷体, serif;
+  background-color: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(20px) saturate(1.6);
+  -webkit-backdrop-filter: blur(20px) saturate(1.6);
+  box-shadow:
+    0 4px 16px rgba(0, 0, 0, 0.12),
+    0 0 0 0.5px rgba(0, 0, 0, 0.05);
+}
+
+[data-theme="halloween"] .quicksite-context-menu,
+:root[data-theme="halloween"] .quicksite-context-menu {
+  background-color: rgba(35, 35, 35, 0.95);
+  box-shadow:
+    0 4px 16px rgba(0, 0, 0, 0.35),
+    0 0 0 0.5px rgba(255, 255, 255, 0.06);
+}
+
+.quicksite-context-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+  padding: 0.375rem 0.625rem;
+  border: none;
+  background: none;
+  border-radius: 0.5rem;
+  font-size: 0.8125rem;
+  color: var(--fallback-bc, oklch(var(--bc) / 0.75));
+  cursor: pointer;
+  transition: background-color 0.1s ease;
+}
+
+.quicksite-context-item:hover {
+  background-color: oklch(from var(--fallback-bc, oklch(var(--bc) / 1)) l c h / 0.06);
+}
+
+.quicksite-context-danger:hover {
+  color: #e53e3e;
+  background-color: rgba(229, 62, 62, 0.08);
+}
+
+/* 编辑器模态框 */
+.quicksite-editor {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: min(360px, 90vw);
+  padding: 1.25rem;
+  border-radius: 1.25rem;
+  font-family: "LXGW WenKai Light", 楷体, serif;
+  background-color: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(28px) saturate(1.8);
+  -webkit-backdrop-filter: blur(28px) saturate(1.8);
+  box-shadow:
+    0 12px 40px rgba(0, 0, 0, 0.18),
+    0 0 0 1px rgba(0, 0, 0, 0.05);
+}
+
+[data-theme="halloween"] .quicksite-editor,
+:root[data-theme="halloween"] .quicksite-editor {
+  background-color: rgba(30, 30, 30, 0.95);
+  box-shadow:
+    0 12px 40px rgba(0, 0, 0, 0.4),
+    0 0 0 1px rgba(255, 255, 255, 0.06);
+}
+
+.quicksite-editor-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 0.75rem;
+  margin-bottom: 0.75rem;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--fallback-bc, oklch(var(--bc) / 0.85));
+  border-bottom: 1px solid oklch(from var(--fallback-bc, oklch(var(--bc) / 1)) l c h / 0.1);
+}
+
+.quicksite-editor-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.quicksite-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.quicksite-field label {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--fallback-bc, oklch(var(--bc) / 0.5));
+}
+
+.quicksite-field input {
+  padding: 0.5rem 0.75rem;
+  border: 1px solid oklch(from var(--fallback-bc, oklch(var(--bc) / 1)) l c h / 0.12);
+  border-radius: 0.625rem;
+  background: oklch(from var(--fallback-b1, oklch(var(--b1) / 1)) l c h / 0.6);
+  color: var(--fallback-bc, oklch(var(--bc) / 0.85));
+  font-size: 0.875rem;
+  font-family: inherit;
+  outline: none;
+  transition: border-color 0.15s ease;
+}
+
+.quicksite-field input:focus {
+  border-color: var(--fallback-p, oklch(var(--p) / 0.5));
+}
+
+.quicksite-field input::placeholder {
+  color: var(--fallback-bc, oklch(var(--bc) / 0.25));
+}
+
+.quicksite-editor-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  margin-top: 0.25rem;
+}
+
+.quicksite-btn-cancel,
+.quicksite-btn-save {
+  padding: 0.375rem 1rem;
+  border: none;
+  border-radius: 0.5rem;
+  font-size: 0.8125rem;
+  font-family: inherit;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.quicksite-btn-cancel {
+  background: none;
+  color: var(--fallback-bc, oklch(var(--bc) / 0.5));
+}
+
+.quicksite-btn-cancel:hover {
+  background-color: oklch(from var(--fallback-bc, oklch(var(--bc) / 1)) l c h / 0.06);
+}
+
+.quicksite-btn-save {
+  background-color: var(--fallback-p, oklch(var(--p) / 0.85));
+  color: var(--fallback-pc, oklch(var(--pc) / 1));
+}
+
+.quicksite-btn-save:hover {
+  opacity: 0.9;
+}
+
+.quicksite-btn-save:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
 
 .bookmark-bar-wrapper {
   width: 100%;
   max-width: 860px;
-  margin-top: 5rem;
+  margin-top: 1.5rem;
   padding: 0 1rem;
   display: flex;
   flex-direction: column;
