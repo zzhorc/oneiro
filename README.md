@@ -49,19 +49,27 @@
 
 | 包名 | 适用浏览器 |
 |------|-----------|
-| `oneiro-chrome-edge.zip` | Chrome / Edge |
-| `oneiro-firefox.zip` | Firefox |
+| `oneiro-<version>-chrome.zip` | Chrome |
+| `oneiro-<version>-edge.zip` | Edge |
+| `oneiro-<version>-firefox.zip` | Firefox |
 
-#### Chrome / Edge
+#### Chrome
 
-1. 下载 `oneiro-chrome-edge.zip` 并解压
-2. 打开 `chrome://extensions/`（Edge 为 `edge://extensions/`）
+1. 下载 `oneiro-<version>-chrome.zip` 并解压
+2. 打开 `chrome://extensions/`
 3. 开启右上角 **开发者模式**
 4. 点击 **加载已解压的扩展程序**，选择解压后的 `chrome-mv3` 文件夹
 
+#### Edge
+
+1. 下载 `oneiro-<version>-edge.zip` 并解压
+2. 打开 `edge://extensions/`
+3. 开启左下角 **开发人员模式**
+4. 点击 **加载解压缩的扩展**，选择解压后的 `edge-mv3` 文件夹
+
 #### Firefox
 
-1. 下载 `oneiro-firefox.zip` 并解压
+1. 下载 `oneiro-<version>-firefox.zip` 并解压
 2. 打开 `about:debugging#/runtime/this-firefox`
 3. 点击 **临时载入附加组件**，选择解压后 `firefox-mv2` 文件夹中的 `manifest.json`
 
