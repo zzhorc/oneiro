@@ -17,3 +17,5 @@ node_modules
 
 # AI assistance workflows
 .agents/
+.agent/
+release/
