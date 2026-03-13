@@ -8,9 +8,12 @@ import {
   IoContrastOutline as BwIcon,
   IoBookmarksOutline as BookmarkIcon,
   IoGlobeOutline as GlobeIcon,
+  IoChevronDownOutline as ChevronDownIcon,
+  IoChevronUpOutline as ChevronUpIcon
 } from "react-icons/io5";
 import { MdTimelapse as SyncIcon } from "react-icons/md";
 import { BiFontFamily as FontIcon } from "react-icons/bi";
+import CATEGORIES from "sentences-bundle/categories.json";
 
 /**
  * 统一设置面板
@@ -28,8 +31,11 @@ export default function SettingsPanel({
   onToggleBookmarks,
   showQuickSites,
   onToggleQuickSites,
+  selectedCategories,
+  onToggleCategory,
 }) {
   const [isOpen, setIsOpen] = useState(false);
+  const [isCategoriesExpanded, setIsCategoriesExpanded] = useState(false);
   const panelRef = useRef(null);
 
   const togglePanel = useCallback(() => {
@@ -132,6 +138,49 @@ export default function SettingsPanel({
               <span className="settings-row-label">书签行数</span>
               <span className="settings-row-value">{visibleRows} 行</span>
             </button>
+          )}
+          {/* 分类别 */}
+          <div className="settings-divider" />
+          
+          <button 
+            className="settings-row" 
+            onClick={() => setIsCategoriesExpanded(prev => !prev)} 
+            type="button"
+          >
+            <span className="settings-row-icon">
+              {isCategoriesExpanded ? <ChevronUpIcon className="w-5 h-5" /> : <ChevronDownIcon className="w-5 h-5" />}
+            </span>
+            <span className="settings-row-label">展示类别</span>
+            <span className="settings-row-value">{selectedCategories.length} 项</span>
+          </button>
+
+          {isCategoriesExpanded && (
+            <div className="px-3 pb-3 grid grid-cols-2 gap-x-1 gap-y-2 mt-2 max-h-[160px] overflow-y-auto" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(85px, 1fr))' }}>
+              {CATEGORIES.map((cat) => {
+                const isSelected = selectedCategories.includes(cat.key);
+                const isDisabled = isSelected && selectedCategories.length <= 1;
+
+                return (
+                  <label 
+                    key={cat.key} 
+                    className={`flex items-center space-x-2 text-sm select-none p-1.5 rounded-md transition-colors ${
+                      isDisabled ? "opacity-50 cursor-not-allowed" : "cursor-pointer hover:bg-base-200/50"
+                    }`}
+                    title={isDisabled ? "请至少保留一个类别" : cat.desc}
+                  >
+                    <input
+                      type="checkbox"
+                      className="checkbox checkbox-xs"
+                      checked={isSelected}
+                      onChange={() => onToggleCategory(cat.key)}
+                      disabled={isDisabled}
+                      style={{ borderRadius: '0.25rem' }}
+                    />
+                    <span className="whitespace-nowrap">{cat.name}</span>
+                  </label>
+                );
+              })}
+            </div>
           )}
         </div>
       )}

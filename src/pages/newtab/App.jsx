@@ -1,6 +1,6 @@
 import { POEM_MAXLINELENGTH, FONT_DISPLAY_NAMES } from "./services/constants";
 import { getRandomPoem } from "./services/poems";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import "animate.css";
 import "./App.css";
 import PoemDisplay from "./components/PoemDisplay";
@@ -15,6 +15,37 @@ import { useBookmarks } from "./hooks/useBookmarks";
 import { useBookmarkSettings } from "./hooks/useBookmarkSettings";
 import { useQuickSites } from "./hooks/useQuickSites";
 import { useResponsiveRows } from "./hooks/useResponsiveRows";
+import { useCategories } from "./hooks/useCategories";
+
+function getFormattedPoem(categories) {
+  const p = getRandomPoem(categories);
+  let newTitle = p.title || "";
+  if (!/^[A-Za-z]/.test(newTitle[0])) {
+    newTitle = newTitle
+      .replace(/[^\u4E00-\u9FA5\t\n\r]/g, " ")
+      .replace(/\s+/g, " ")
+      .trim();
+    if (newTitle.length >= POEM_MAXLINELENGTH) {
+      const lines = newTitle.split(/\s+/);
+      const result =
+        lines.length % 2 === 0
+          ? lines.reduce(
+            (acc, line, i) => {
+              if (i % 2 === 0) {
+                acc.push(line);
+              } else {
+                acc[acc.length - 1] = `${acc[acc.length - 1]} ${line}`;
+              }
+              return acc;
+            },
+            []
+          )
+          : lines;
+      newTitle = result.join("\n");
+    }
+  }
+  return { ...p, title: newTitle };
+}
 
 export default function App() {
   const { theme, toggleTheme } = useTheme();
@@ -31,38 +62,26 @@ export default function App() {
   const { safeBookmarkRows, safeQuickSiteRows } = useResponsiveRows(
     visibleRows, showBookmarks, showQuickSites, sites.length
   );
-  const [poem, setPoem] = useState(() => getRandomPoem());
+  
+  const { selectedCategories, toggleCategory } = useCategories();
+  
+  const [poem, setPoem] = useState(() => getFormattedPoem(selectedCategories));
   const [isAnimating, setIsAnimating] = useState(true);
+
+  // 防止初次挂载时重复获取，只在分类改变时才获取新诗句
+  const isFirstRender = useRef(true);
+  useEffect(() => {
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
+    }
+    setPoem(getFormattedPoem(selectedCategories));
+  }, [selectedCategories]);
 
   useGuide();
 
+  // 当诗句更新时触发动画
   useEffect(() => {
-    let newTitle = poem.title;
-    if (!/^[A-Za-z]/.test(newTitle[0])) {
-      newTitle = newTitle
-        .replace(/[^\u4E00-\u9FA5\t\n\r]/g, " ")
-        .replace(/\s+/g, " ")
-        .trim();
-      if (newTitle.length >= POEM_MAXLINELENGTH) {
-        const lines = newTitle.split(/\s+/);
-        const result =
-          lines.length % 2 === 0
-            ? lines.reduce(
-              (acc, line, i) => {
-                if (i % 2 === 0) {
-                  acc.push(line);
-                } else {
-                  acc[acc.length - 1] = `${acc[acc.length - 1]} ${line}`;
-                }
-                return acc;
-              },
-              []
-            )
-            : lines;
-        newTitle = result.join("\n");
-      }
-    }
-    setPoem((prevPoem) => ({ ...prevPoem, title: newTitle }));
     setIsAnimating(true);
     const timer = setTimeout(() => setIsAnimating(false), 1000);
     return () => clearTimeout(timer);
@@ -127,6 +146,8 @@ export default function App() {
         onToggleBookmarks={toggleShowBookmarks}
         showQuickSites={showQuickSites}
         onToggleQuickSites={toggleShowQuickSites}
+        selectedCategories={selectedCategories}
+        onToggleCategory={toggleCategory}
       />
 
       {/* 右下角显示当前字体名 */}

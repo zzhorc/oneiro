@@ -74,7 +74,7 @@ function App() {
                 <div className="w-2.5 h-2.5 border-l-2 border-b-2 border-base-content rounded-bl-sm" />
             </div>
             <div className="w-full flex justify-between items-center mb-1 px-2">
-                <h1 className="text-2xl font-bold opacity-80 tracking-wide">Oneiro</h1>
+                <h1 className="text-2xl font-bold opacity-80 tracking-wide">oneiro</h1>
                 <div className="flex gap-2 items-center">
                     <button onClick={toggleBookmarkLayout} className="btn btn-ghost btn-xs btn-square" title={layoutTitle}>
                         {bookmarkLayout === "grid" && <IoGridOutline className="w-4 h-4 opacity-70" />}

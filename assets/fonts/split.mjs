@@ -3,11 +3,25 @@ import fs from "node:fs/promises";
 
 // 包含需要用到的所有字符的文件们
 const textSrc = [
+  "../../node_modules/sentences-bundle/sentences/a.json",
+  "../../node_modules/sentences-bundle/sentences/b.json",
+  "../../node_modules/sentences-bundle/sentences/c.json",
+  "../../node_modules/sentences-bundle/sentences/d.json",
+  "../../node_modules/sentences-bundle/sentences/e.json",
+  "../../node_modules/sentences-bundle/sentences/f.json",
+  "../../node_modules/sentences-bundle/sentences/g.json",
+  "../../node_modules/sentences-bundle/sentences/h.json",
   "../../node_modules/sentences-bundle/sentences/i.json",
-  "../../Layout.jsx",
-  "../../App.jsx",
+  "../../node_modules/sentences-bundle/sentences/j.json",
+  "../../node_modules/sentences-bundle/sentences/k.json",
+  "../../node_modules/sentences-bundle/sentences/l.json",
+  "../../src/pages/newtab/App.jsx",
   "../../entrypoints/newtab/index.html",
   "../../entrypoints/background.js",
+  "../../src/pages/newtab/components/SettingsPanel.jsx",
+  "../../src/pages/newtab/components/BookmarkBar.jsx",
+  "../../src/pages/newtab/components/PoemDisplay.jsx",
+  "../../src/pages/newtab/components/QuickSitesBar.jsx",
 ];
 
 async function main() {
@@ -31,27 +45,35 @@ async function main() {
   const fontList = await fs.readdir(srcDir);
   console.log(`字体文件: ${fontList.join(", ")}`);
 
-  // 清空 build 目录的子目录并忽略错误
-  await fs.rm(buildDir, { recursive: true, force: true });
+  // 保留原有 build 内容，仅在存在 .src 时执行裁剪
   await fs.mkdir(buildDir, { recursive: true });
 
-  // 处理每个字体文件
-  let resultCss = "";
+  // 处理每个在 .src 的字体文件
   for (const font of fontList) {
-    const fontName = font.replace(".ttf", "");
+    if(!font.endsWith(".ttf") && !font.endsWith(".otf")) continue;
+    const fontName = font.replace(".ttf", "").replace(".otf", "");
     await fontSplit({
       FontPath: srcDir + font,
       destFold: buildDir + fontName,
+      outDir: buildDir + fontName,
       subsets: [charset],
       autoChunk: false,
       targetType: "woff2",
       reporter: false,
       testHTML: false,
     });
-    resultCss += `@import "${buildDir}${fontName}/result.css";\n`;
     console.log(`处理完成: ${font}`);
   }
-  // 写入 fonts.css
+
+  // 写入 fonts.css：扫描 build 目录中所有的已有成品
+  const buildItems = await fs.readdir(buildDir);
+  let resultCss = "";
+  for (const item of buildItems) {
+    if (!item.startsWith(".") && !item.includes(".")) {
+      // 假定它是字体目录
+      resultCss += `@import "${buildDir}${item}/result.css";\n`;
+    }
+  }
   await fs.writeFile("./fonts.css", resultCss, "utf-8");
 }
 
